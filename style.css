@@ -1440,11 +1440,144 @@ textarea {
 }
 
 .contact-form-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   padding: 2rem;
   border: 1px solid rgba(18, 18, 18, 0.08);
   border-radius: 2rem;
   background: rgba(253, 249, 243, 0.74);
   box-shadow: var(--shadow);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+.contact-form-card.is-success {
+  border-color: rgba(15, 118, 110, 0.2);
+  background: linear-gradient(180deg, rgba(253, 249, 243, 0.9), rgba(239, 248, 245, 0.92));
+  box-shadow:
+    var(--shadow),
+    0 0 0 1px rgba(15, 118, 110, 0.06);
+}
+
+.contact-form-card form {
+  position: relative;
+  z-index: 1;
+}
+
+.form-success-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.form-success-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -11rem;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(15, 118, 110, 0.24), rgba(15, 118, 110, 0.08) 42%, transparent 72%);
+  opacity: 0;
+  transform: translateX(-50%);
+  animation: form-success-glow 1250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.form-success-trail {
+  position: absolute;
+  left: 8.8rem;
+  bottom: 6rem;
+  width: 15rem;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 107, 44, 0), rgba(255, 107, 44, 0.95), rgba(15, 118, 110, 0.72), rgba(15, 118, 110, 0));
+  box-shadow: 0 0 18px rgba(15, 118, 110, 0.22);
+  transform-origin: left center;
+  opacity: 0;
+  animation: form-success-trail 1280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.form-success-envelope {
+  position: absolute;
+  left: 2rem;
+  bottom: 3.7rem;
+  width: 6.8rem;
+  height: 4.7rem;
+  transform-style: preserve-3d;
+  opacity: 0;
+  filter: drop-shadow(0 16px 30px rgba(18, 18, 18, 0.16));
+  animation: envelope-send 1320ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.form-success-envelope-back,
+.form-success-envelope-front,
+.form-success-envelope-letter,
+.form-success-envelope-flap {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+}
+
+.form-success-envelope-back {
+  background: linear-gradient(180deg, #f6d4c0 0%, #eab292 100%);
+  box-shadow: inset 0 0 0 1px rgba(120, 57, 26, 0.12);
+}
+
+.form-success-envelope-letter {
+  top: 0.4rem;
+  right: 0.62rem;
+  bottom: 0.88rem;
+  left: 0.62rem;
+  border-radius: 0.6rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 244, 238, 0.96)),
+    repeating-linear-gradient(
+      180deg,
+      rgba(15, 118, 110, 0.16) 0,
+      rgba(15, 118, 110, 0.16) 2px,
+      transparent 2px,
+      transparent 9px
+    );
+  box-shadow: inset 0 0 0 1px rgba(18, 18, 18, 0.05);
+  animation: envelope-letter-slide 420ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.form-success-envelope-front {
+  clip-path: polygon(0 100%, 0 34%, 50% 64%, 100% 34%, 100% 100%);
+  background: linear-gradient(180deg, #ffb697 0%, #ff8242 100%);
+  box-shadow: inset 0 0 0 1px rgba(148, 60, 21, 0.14);
+}
+
+.form-success-envelope-front::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 1.65rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: rgba(255, 244, 238, 0.86);
+  box-shadow: 0 0 0 1px rgba(148, 60, 21, 0.12);
+  transform: translateX(-50%);
+}
+
+.form-success-envelope-flap {
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 60%;
+  border-radius: 1rem 1rem 0 0;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  background: linear-gradient(180deg, #ffa982 0%, #ff6b2c 100%);
+  box-shadow: inset 0 0 0 1px rgba(148, 60, 21, 0.14);
+  transform-origin: top center;
+  transform: rotateX(-170deg);
+  animation: envelope-flap-close 380ms cubic-bezier(0.4, 0, 0.2, 1) 260ms forwards;
 }
 
 .form-grid {
@@ -1456,7 +1589,7 @@ textarea {
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 0.5rem;
 }
 
 .form-field-full {
@@ -1475,13 +1608,30 @@ textarea {
   border: 0;
 }
 
+.form-control-shell {
+  position: relative;
+}
+
 .form-label {
-  color: var(--muted);
+  position: absolute;
+  top: 1rem;
+  left: 0.9rem;
+  z-index: 1;
+  padding: 0 0.28rem;
+  background: linear-gradient(180deg, rgba(253, 249, 243, 0.98), rgba(253, 249, 243, 0.98));
+  color: rgba(92, 92, 92, 0.9);
   font-family: var(--ui);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.1em;
+  pointer-events: none;
   text-transform: uppercase;
+  transform-origin: left top;
+  transition:
+    transform 180ms ease,
+    color 180ms ease,
+    letter-spacing 180ms ease,
+    top 180ms ease;
 }
 
 .form-field input,
@@ -1490,17 +1640,24 @@ textarea {
   border: 1px solid rgba(18, 18, 18, 0.14);
   border-radius: 1rem;
   background: rgba(255, 255, 255, 0.76);
-  padding: 0.95rem 1rem;
+  padding: 1.6rem 1rem 0.8rem;
   color: var(--ink);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
-    transform 180ms ease;
+    transform 180ms ease,
+    background-color 180ms ease;
 }
 
 .form-field textarea {
   min-height: 12rem;
+  padding-top: 1.85rem;
   resize: vertical;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: transparent;
 }
 
 .form-field input:focus,
@@ -1509,6 +1666,24 @@ textarea {
   border-color: rgba(255, 107, 44, 0.8);
   box-shadow: 0 0 0 4px rgba(255, 107, 44, 0.14);
   transform: translateY(-1px);
+}
+
+.form-field:focus-within .form-label,
+.form-field.has-value .form-label {
+  top: 0.46rem;
+  color: var(--accent-deep);
+  letter-spacing: 0.08em;
+  transform: scale(0.82);
+}
+
+.form-field.has-error input,
+.form-field.has-error textarea {
+  border-color: rgba(181, 69, 28, 0.44);
+  box-shadow: 0 0 0 4px rgba(181, 69, 28, 0.08);
+}
+
+.form-field.has-error .form-label {
+  color: #b5451c;
 }
 
 .field-error {
@@ -1543,6 +1718,33 @@ textarea {
   color: #b5451c;
 }
 
+.button-primary.is-success {
+  gap: 0.7rem;
+  background: linear-gradient(135deg, #0f766e, #169084);
+  box-shadow: 0 18px 34px rgba(15, 118, 110, 0.24);
+}
+
+.button-label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.button-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  animation: button-check-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.button-check svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
 .site-footer {
   display: flex;
   align-items: center;
@@ -1574,6 +1776,115 @@ textarea {
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes form-success-glow {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.65);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+@keyframes form-success-trail {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.2) translateX(0);
+  }
+
+  35% {
+    opacity: 0;
+    transform: scaleX(0.2) translateX(0);
+  }
+
+  48% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(1) translateX(4.6rem);
+  }
+}
+
+@keyframes envelope-send {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0.7rem, 0) scale(0.76) rotate(0deg);
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  24% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1.06) rotate(0deg);
+  }
+
+  42% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1.06) rotate(0deg);
+  }
+
+  58% {
+    opacity: 1;
+    transform: translate3d(1.3rem, -0.2rem, 0) scale(1.01) rotate(-2deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(18rem, -10.8rem, 0) scale(0.78) rotate(-14deg);
+  }
+}
+
+@keyframes envelope-letter-slide {
+  0% {
+    transform: translateY(-1.2rem);
+  }
+
+  52% {
+    transform: translateY(-0.12rem);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes envelope-flap-close {
+  0% {
+    transform: rotateX(-170deg);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes button-check-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 1080px) {
@@ -1723,6 +2034,19 @@ textarea {
     max-width: none;
   }
 
+  .form-success-envelope {
+    left: 1.2rem;
+    bottom: 3rem;
+    width: 5.2rem;
+    height: 3.7rem;
+  }
+
+  .form-success-trail {
+    left: 6rem;
+    bottom: 5rem;
+    width: 8.5rem;
+  }
+
   .projects-footer,
   .form-actions,
   .site-footer {
@@ -1752,6 +2076,14 @@ textarea {
 
   .experience-card-tilt {
     transform: none;
+  }
+
+  .form-success-scene {
+    display: none;
+  }
+
+  .button-check {
+    animation: none;
   }
 
 }

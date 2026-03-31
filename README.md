@@ -73,8 +73,23 @@ npm start
 
 - The contact form posts to `POST /api/contact`.
 - Validation runs on both the client and the Express server.
-- By default, successful submissions are logged in the server console.
-- If you want the form to forward somewhere in production, set `CONTACT_WEBHOOK_URL` to a webhook destination such as Zapier, Make, Slack, or another backend endpoint.
+- If SMTP is configured, the backend sends email notifications to `CONTACT_TO_EMAIL`.
+- By default, if no SMTP or webhook is configured, successful submissions are logged in the server console.
+- If you want the form to forward somewhere else too, set `CONTACT_WEBHOOK_URL` to a webhook destination such as Zapier, Make, Slack, or another backend endpoint.
+
+### SMTP email setup
+
+Create a local `.env` file from `.env.example` and set:
+
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_SECURE`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `CONTACT_FROM_EMAIL`
+- `CONTACT_TO_EMAIL`
+
+For Gmail, use an app password instead of your regular account password.
 
 ## Hosting
 
@@ -85,6 +100,13 @@ This project is ready for any Node-compatible host.
 - Required Node version: `20.19+` or `22.12+`
 - Optional environment variables:
   - `PORT`
+  - `SMTP_HOST`
+  - `SMTP_PORT`
+  - `SMTP_SECURE`
+  - `SMTP_USER`
+  - `SMTP_PASS`
+  - `CONTACT_FROM_EMAIL`
+  - `CONTACT_TO_EMAIL`
   - `CONTACT_WEBHOOK_URL`
 
 Good fits include Render, Railway, Fly.io, and other hosts that support long-running Node services.

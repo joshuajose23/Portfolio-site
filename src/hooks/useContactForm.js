@@ -6,13 +6,28 @@ import {
 
 const initialStatus = {
   kind: "",
-  message: "The form posts to the Express backend with client and server validation."
+  message: ""
 };
+
+async function readResponsePayload(response) {
+  const contentType = response.headers.get("content-type") ?? "";
+
+  if (contentType.includes("application/json")) {
+    return response.json();
+  }
+
+  const text = await response.text();
+
+  return {
+    message: text || "The server returned an unexpected response."
+  };
+}
 
 export function useContactForm() {
   const [formData, setFormData] = useState(emptyContactForm);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successCount, setSuccessCount] = useState(0);
   const [status, setStatus] = useState(initialStatus);
 
   const handleChange = (event) => {
@@ -22,6 +37,12 @@ export function useContactForm() {
       ...current,
       [name]: value
     }));
+
+    setStatus((current) => (
+      current.kind === "success"
+        ? initialStatus
+        : current
+    ));
 
     setErrors((current) => {
       if (!current[name]) {
@@ -63,7 +84,7 @@ export function useContactForm() {
         body: JSON.stringify(data)
       });
 
-      const payload = await response.json();
+      const payload = await readResponsePayload(response);
 
       if (!response.ok) {
         setErrors(payload.errors ?? {});
@@ -71,7 +92,7 @@ export function useContactForm() {
           kind: "error",
           message:
             payload.message ??
-            "Something went wrong while sending your message. Please try again."
+            "The message service is unavailable right now. Please try again shortly."
         });
         return;
       }
@@ -82,11 +103,12 @@ export function useContactForm() {
         kind: "success",
         message: payload.message
       });
+      setSuccessCount((current) => current + 1);
     } catch (error) {
       setStatus({
         kind: "error",
         message:
-          "The server could not be reached right now. Please try again in a moment."
+          "The contact service could not be reached right now. If the site is hosted, make sure the backend server is running and publicly accessible."
       });
     } finally {
       setIsSubmitting(false);
@@ -99,6 +121,7 @@ export function useContactForm() {
     handleChange,
     handleSubmit,
     isSubmitting,
+    successCount,
     status
   };
 }

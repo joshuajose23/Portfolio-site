@@ -153,23 +153,6 @@ export const skillGroups = [
 
 export const projects = [
   {
-    title: "Weather Application",
-    type: "Personal build",
-    year: "React + Node",
-    description:
-      "A real-time weather experience focused on clean city search, readable forecasts, and a calm interface instead of overwhelming raw data.",
-    highlights: [
-      "Built the client in React with reusable components for search, forecast cards, and loading states.",
-      "Connected a Node.js backend to the OpenWeatherMap API for dependable request handling and cleaner data flow.",
-      "Designed the experience around clarity, speed, and mobile-friendly reading."
-    ],
-    stack: ["React", "Node.js", "OpenWeatherMap API", "Responsive UI"],
-    imageSrc: "/images/projects/weather-application.svg",
-    imageAlt: "Weather application interface preview",
-    projectHref: "https://github.com/joshuajose23",
-    projectLinkLabel: "View on GitHub"
-  },
-  {
     title: "ResolveHub Ticketing Platform",
     type: "Live product demo",
     year: "Support Ops",
@@ -238,6 +221,23 @@ export const projects = [
     stack: ["Angular", "TypeScript", "ApexCharts", "HTML", "CSS", "Jira"],
     imageSrc: "/images/projects/bubble-chart-widget.svg",
     imageAlt: "Bubble chart widget preview",
+    projectHref: "https://github.com/joshuajose23",
+    projectLinkLabel: "View on GitHub"
+  },
+  {
+    title: "Weather Application",
+    type: "Personal build",
+    year: "React + Node",
+    description:
+      "A real-time weather experience focused on clean city search, readable forecasts, and a calm interface instead of overwhelming raw data.",
+    highlights: [
+      "Built the client in React with reusable components for search, forecast cards, and loading states.",
+      "Connected a Node.js backend to the OpenWeatherMap API for dependable request handling and cleaner data flow.",
+      "Designed the experience around clarity, speed, and mobile-friendly reading."
+    ],
+    stack: ["React", "Node.js", "OpenWeatherMap API", "Responsive UI"],
+    imageSrc: "/images/projects/weather-application.svg",
+    imageAlt: "Weather application interface preview",
     projectHref: "https://github.com/joshuajose23",
     projectLinkLabel: "View on GitHub"
   }
