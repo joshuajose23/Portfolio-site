@@ -22,7 +22,16 @@ export default function Navigation({ activeSection, links }) {
           className="brand"
           href="#hero"
         >
-          <span className="brand-mark">JK</span>
+          <span
+            aria-hidden="true"
+            className="brand-mark"
+          >
+            <img
+              alt=""
+              className="brand-mark-image"
+              src="/brand-badge.png"
+            />
+          </span>
           <span className="brand-text">Joshua Kadakampallil</span>
         </a>
 
