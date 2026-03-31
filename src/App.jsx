@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Navigation from "./components/Navigation.jsx";
 import HeroSection from "./components/HeroSection.jsx";
 import AboutSection from "./components/AboutSection.jsx";
@@ -74,6 +75,7 @@ export default function App() {
         />
         <Footer />
       </main>
+      <SpeedInsights />
     </div>
   );
 }
