@@ -1,11 +1,14 @@
 # Portfolio Website
 
-A production-ready portfolio site built with React on the frontend and Node.js + Express on the backend. The frontend is bundled with Vite, and the contact form posts to the backend with both client-side and server-side validation.
+A production-ready portfolio site built with React on the frontend and a shared Node.js backend layer that runs through Express locally and Vercel Functions in production. The frontend is bundled with Vite, and the contact form posts to `/api/contact` with both client-side and server-side validation.
 
 ## Folder structure
 
 ```text
 Portfolio-site/
+├── api/
+│   ├── contact.js
+│   └── health.js
 ├── public/
 │   ├── images/
 │   │   ├── apple-logo.png
@@ -18,6 +21,7 @@ Portfolio-site/
 │   └── resume/
 │       └── JoshuaK_resume.pdf
 ├── server/
+│   ├── apiHandlers.js
 │   └── server.js
 ├── src/
 │   ├── components/
@@ -32,6 +36,7 @@ Portfolio-site/
 ├── package-lock.json
 ├── package.json
 ├── style.css
+├── vercel.json
 └── vite.config.js
 ```
 
@@ -61,7 +66,7 @@ npm run dev
 npm run build
 ```
 
-2. Start the Express server:
+2. Start the local Node server:
 
 ```bash
 npm start
@@ -72,7 +77,7 @@ npm start
 ## Contact form
 
 - The contact form posts to `POST /api/contact`.
-- Validation runs on both the client and the Express server.
+- Validation runs on both the client and the server-side API handler.
 - If SMTP is configured, the backend sends email notifications to `CONTACT_TO_EMAIL`.
 - By default, if no SMTP or webhook is configured, successful submissions are logged in the server console.
 - If you want the form to forward somewhere else too, set `CONTACT_WEBHOOK_URL` to a webhook destination such as Zapier, Make, Slack, or another backend endpoint.
@@ -93,10 +98,12 @@ For Gmail, use an app password instead of your regular account password.
 
 ## Hosting
 
-This project is ready for any Node-compatible host.
+This project is ready for Vercel and still works on any Node-compatible host for local or traditional server deployments.
 
 - Build command: `npm install && npm run build`
-- Start command: `npm start`
+- Vercel API routes: `api/contact.js` and `api/health.js`
+- SPA fallback: configured in `vercel.json`
+- Local/traditional start command: `npm start`
 - Required Node version: `20.19+` or `22.12+`
 - Optional environment variables:
   - `PORT`
@@ -109,4 +116,4 @@ This project is ready for any Node-compatible host.
   - `CONTACT_TO_EMAIL`
   - `CONTACT_WEBHOOK_URL`
 
-Good fits include Render, Railway, Fly.io, and other hosts that support long-running Node services.
+Good fits include Vercel, Render, Railway, Fly.io, and other hosts that support either serverless functions or long-running Node services.
